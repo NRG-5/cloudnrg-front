@@ -61,7 +61,8 @@ export default function CloudNRGSidebar({ ...props }: React.ComponentProps<typeo
                         >
                             <a href="/dashboard" className={`h-fit`}>
                                 <div className={`flex flex-row items-center`}>
-                                    <span className="text-3xl font-semibold">CloudNRG</span>
+                                    <span className="text-3xl font-semibold">Cloud</span>
+                                    <span className="text-3xl font-bold text-primary">NRG</span>
                                     <CloudLightning className="h-8 w-8 ml-2" />
                                 </div>
                             </a>
