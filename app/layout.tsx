@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import {ThemeProvider} from "next-themes";
+import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
+import CloudNRGSidebar from "@/components/cloudnrg-sidebar";
+import CloudNRGHeader from "@/components/cloudnrg-header";
+import CloudNRGFooter from "@/components/cloudnrg-footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -34,7 +38,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
       >
-          {children}
+          <SidebarProvider>
+              <CloudNRGSidebar variant="inset"/>
+              <SidebarInset>
+                  <main className={`grid min-h-full`} style={{ gridTemplateRows : "auto 1fr auto"}}>
+                      <CloudNRGHeader/>
+                      {children}
+                      <CloudNRGFooter/>
+                  </main>
+              </SidebarInset>
+          </SidebarProvider>
       </ThemeProvider>
       </body>
     </html>
