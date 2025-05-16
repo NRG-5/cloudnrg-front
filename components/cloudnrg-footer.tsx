@@ -10,7 +10,7 @@ const fastLinks = [
 
 export default function CloudNRGFooter(){
     return (
-        <footer className={`flex flex-row justify-between p-2 border-t `}>
+        <footer className={`flex flex-row justify-between p-6 border-t `}>
             <div className={`flex flex-row gap-4`}>
                 { fastLinks.map(({name, href},index) => (
                  <div key={index} className={`flex flex-row gap-4`}>
