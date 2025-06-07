@@ -4,7 +4,6 @@ import { Separator } from "@/components/ui/separator"
 const fastLinks = [
     { name: "Dashboard", href: "/dashboard" },
     { name: "Terms of Service", href: "/terms-of-service" },
-    { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Contact Us", href: "/contact" }
 ]
 
