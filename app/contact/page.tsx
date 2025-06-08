@@ -52,9 +52,11 @@ export default function ContactPage(){
     return (
         <div className={`flex justify-center p-6`}>
             <div className={` space-y-8 max-w-3xl`}>
-                <h1 className={`text-center text-4xl font-bold mb-4`}>Contact Us</h1>
+                <h1 className={`text-center text-4xl font-medium mb-4`}>
+                    Contact Us
+                </h1>
                 <p className={`text-center`}>
-                If you have any questions or need further information, please fill out the form below.
+                    If you have any questions or need further information, please fill out the form below.
                     We will get back to you as soon as possible.
                 </p>
                 <Card className={`w-full`}>
