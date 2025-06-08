@@ -23,18 +23,15 @@ export default function FolderMenuBar() {
         try {
             const formData = new FormData();
             formData.append("file", file);
+            formData.append("userId", userId);
+            formData.append("folderId", folderId);
 
-            // Use the FULL backend URL (not just /api/...)
-            const apiUrl = `http://localhost:8090/api/v1/files/upload?userId=${userId}&folderId=${folderId}`;
-
-            const res = await fetch(apiUrl, {
-                method: 'POST',
+            const res = await fetch(`/api/upload`, {
+                method: "POST",
                 body: formData,
-                mode: 'cors', // Explicitly enable CORS
                 headers: {
-                    'Accept': 'application/json',
-                    // Don't set Content-Type - browser will set it automatically with boundary
-                },
+                    "Accept": "application/json"
+                }
             });
 
             if (!res.ok) {
