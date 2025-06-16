@@ -10,9 +10,11 @@ import {
     FileAudio,
     FileBox,
     FileQuestion,
-    ArrowBigDownDash
+    ArrowBigDownDash, FolderOpen
 } from "lucide-react";
 import {Button} from "@/components/ui/button";
+import {Checkbox} from "@/components/ui/checkbox";
+import ObjectMenu from "@/app/dashboard/_components/object-menu";
 
 const userId = "2c1405c6-43b0-4fb0-a23f-877427943382";
 
@@ -24,6 +26,25 @@ const folder = {
     createTime: 1747349537,
     modTime: 1747399537
 }
+
+const folders = [
+    {
+        id: "65e00d9c-6230-4a32-be8e-8c6ecd25842e",
+        name: "root",
+        parentFolderId: null,
+        userId: "2c1405c6-43b0-4fb0-a23f-877427943382",
+        createTime: 1747349537,
+        modTime: 1747399537
+    },
+    {
+        id: "65e00d9c-6230-4a32-ae8e-8c6ecd25842e",
+        name: "root",
+        parentFolderId: null,
+        userId: "2c1405c6-43b0-4fb0-a23f-877427943382",
+        createTime: 1747349537,
+        modTime: 1747399537
+    }
+]
 
 const files = [
     {
@@ -49,7 +70,7 @@ const files = [
             md5: "ee3ceef5106721a11a64063a9ad38122",
             mimeType: "image/png",
             modTime: 1747349537,
-            name: "monse.png",
+            name: "asdf.png",
             parentFolder: "root",
             size: 152056,
             type: "file"
@@ -64,14 +85,13 @@ const files = [
             md5: "ee3ceef5106721a11a64063a9ad38122",
             mimeType: "image/png",
             modTime: 1747349537,
-            name: "monse.png",
+            name: "pfp.png",
             parentFolder: "root",
             size: 152056,
             type: "file"
         },
         status: "ok"
     }
-
 ]
 
 const mimeTypesIcons = [
@@ -116,42 +136,28 @@ export default async function DashboardPage(){
             </div>
             <Separator className="mt-4" />
             <div className={`flex flex-col justify-between`}>
-                {
-                    files.map(({data: {name, createTime, mimeType}}, index) => (
-                        <div key={index} className={`w-full`}>
 
-                            <div className={`flex items-center justify-between min-h-20`}>
-                                {/*make use their mimetype or use the unknown file type*/}
+                {
+                    folders.map(({ id, name, createTime }, index) => (
+                        <div key={id} className={`w-full`}>
+                            <div className={`flex items-center min-h-20`}>
+                                <Checkbox/>
 
                                 <div className={`w-70 flex gap-2 items-center`}>
+
                                     <div>
-                                        {
-                                            (() => {
-                                                const match = mimeTypesIcons.find(({type}) => mimeType.includes(type));
-                                                const Icon = match ? match.icon : FileQuestion;
-                                                return <Icon className={`h-10 w-10`} />;
-                                            })()
-                                        }
+                                        <FolderOpen className={`h-10 w-10`}/>
                                     </div>
+
                                     <div>
                                         <div className={`relative`}>
                                             <span className={`text-xl font-semibold`}>{name}</span>
                                         </div>
                                         <span className={`text-sm text-muted-foreground`}>
-                                    {new Date(createTime).toLocaleString()}
-                                </span>
+                                            {new Date(createTime).toLocaleString()}
+                                        </span>
                                     </div>
-                                </div>
-                                <div>
-                                    <span className={`text-sm text-muted-foreground`}>
-                                        {mimeType}
-                                    </span>
-                                </div>
-                                <div>
-                                <Button variant={`outline`}>
-                                        <ArrowBigDownDash className={`h-4 w-4`}/>
-                                        Download
-                                    </Button>
+
                                 </div>
 
                             </div>
@@ -159,7 +165,50 @@ export default async function DashboardPage(){
                         </div>
                     ))
                 }
-            </div>
-        </div>
-    );
-}
+
+                {
+                    files.map(({data: {name, createTime, mimeType}}, index) => (
+                        <div key={index} className={`w-full`}>
+
+                            <div className={`flex items-center min-h-20`}>
+                                {/*make use their mimetype or use the unknown file type*/}
+
+                                            <Checkbox/>
+
+                                            <div className={`w-70 flex gap-2 items-center`}>
+                                                <div>
+                                                    {
+                                                        (() => {
+                                                            const match = mimeTypesIcons.find(({type}) => mimeType.includes(type));
+                                                            const Icon = match ? match.icon : FileQuestion;
+                                                            return <Icon className={`h-10 w-10`}/>;
+                                                        })()
+                                                    }
+                                                </div>
+                                                <div>
+                                                    <div className={`relative`}>
+                                                        <span className={`text-xl font-semibold`}>{name}</span>
+                                                    </div>
+                                                    <span className={`text-sm text-muted-foreground`}>
+                                    {new Date(createTime).toLocaleString()}
+                                </span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                    <span className={`text-sm text-muted-foreground`}>
+                                        {mimeType}
+                                    </span>
+                                            </div>
+                                            <div>
+                                                <ObjectMenu/>
+                                            </div>
+
+                                        </div>
+                                        <Separator className=""/>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                    );
+                }
