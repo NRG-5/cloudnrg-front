@@ -15,6 +15,7 @@ import {
 import {Button} from "@/components/ui/button";
 import {Checkbox} from "@/components/ui/checkbox";
 import ObjectMenu from "@/app/dashboard/_components/object-menu";
+import {Input} from "@/components/ui/input";
 
 const userId = "2c1405c6-43b0-4fb0-a23f-877427943382";
 
@@ -138,7 +139,7 @@ export default async function DashboardPage(){
             <div className={`flex flex-col justify-between`}>
 
                 {
-                    folders.map(({ id, name, createTime }, index) => (
+                    folders.map(({ id, name, createTime }) => (
                         <div key={id} className={`w-full`}>
                             <div className={`flex items-center min-h-20`}>
                                 <Checkbox/>
@@ -209,6 +210,9 @@ export default async function DashboardPage(){
                                 ))
                             }
                         </div>
-                    </div>
-                    );
-                }
+            <div>
+
+            </div>
+        </div>
+    );
+}

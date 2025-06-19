@@ -1,5 +1,6 @@
 import {FolderOpen} from "lucide-react";
 import {Badge} from "@/components/ui/badge";
+import ObjectMenu from "@/app/dashboard/_components/object-menu";
 
 export default function FolderDisplay(
     {filesLength, folderName, folderCreateTime} :
@@ -19,6 +20,7 @@ export default function FolderDisplay(
                         </span>
 
                 </div>
+                <ObjectMenu/>
             </div>
         </>
     );

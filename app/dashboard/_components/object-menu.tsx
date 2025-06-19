@@ -30,8 +30,12 @@ export default function ObjectMenu(){
                 <DropdownMenuGroup>
 
                     <DropdownMenuItem>
+                        Info
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
                         Download
                     </DropdownMenuItem>
+
                     <DropdownMenuSeparator/>
                     <DropdownMenuItem>
                         Rename
@@ -52,6 +56,7 @@ export default function ObjectMenu(){
                             </DropdownMenuSubContent>
                         </DropdownMenuPortal>
                     </DropdownMenuSub>
+
 
                 </DropdownMenuGroup>
             </DropdownMenuContent>
