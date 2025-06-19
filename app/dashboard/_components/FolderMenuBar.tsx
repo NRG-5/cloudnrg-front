@@ -59,7 +59,7 @@ export default function FolderMenuBar() {
     return (
         <div className="flex justify-between items-center">
 
-            <Checkbox/>
+
 
             <div className={`flex items-center gap-4`}>
 

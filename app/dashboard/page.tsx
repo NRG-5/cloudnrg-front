@@ -1,4 +1,4 @@
-'use server'
+'use client';
 
 import FolderDisplay from "@/app/dashboard/_components/FolderDisplay";
 import FolderMenuBar from "@/app/dashboard/_components/FolderMenuBar";
@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {Checkbox} from "@/components/ui/checkbox";
-import ObjectMenu from "@/app/dashboard/_components/object-menu";
+import FileMenu from "@/app/dashboard/_components/file-menu";
 import {Input} from "@/components/ui/input";
 
 const userId = "2c1405c6-43b0-4fb0-a23f-877427943382";
@@ -122,8 +122,9 @@ const mimeTypesIcons = [
     }
 ]
 
-export default async function DashboardPage(){
+export default function DashboardPage(){
 
+    
     return (
         <div className={`p-6`}>
             <div className={`w-full`}>
@@ -133,6 +134,7 @@ export default async function DashboardPage(){
                     folderCreateTime={folder.createTime}/>
             </div>
             <div>
+                <Checkbox/>
                 <FolderMenuBar/>
             </div>
             <Separator className="mt-4" />
@@ -168,7 +170,7 @@ export default async function DashboardPage(){
                 }
 
                 {
-                    files.map(({data: {name, createTime, mimeType}}, index) => (
+                    files.map(({data}, index) => (
                         <div key={index} className={`w-full`}>
 
                             <div className={`flex items-center min-h-20`}>
@@ -180,7 +182,7 @@ export default async function DashboardPage(){
                                                 <div>
                                                     {
                                                         (() => {
-                                                            const match = mimeTypesIcons.find(({type}) => mimeType.includes(type));
+                                                            const match = mimeTypesIcons.find(({type}) => data.mimeType.includes(type));
                                                             const Icon = match ? match.icon : FileQuestion;
                                                             return <Icon className={`h-10 w-10`}/>;
                                                         })()
@@ -188,20 +190,31 @@ export default async function DashboardPage(){
                                                 </div>
                                                 <div>
                                                     <div className={`relative`}>
-                                                        <span className={`text-xl font-semibold`}>{name}</span>
+                                                        <span className={`text-xl font-semibold`}>{data.name}</span>
                                                     </div>
                                                     <span className={`text-sm text-muted-foreground`}>
-                                    {new Date(createTime).toLocaleString()}
+                                    {new Date(data.createTime).toLocaleString()}
                                 </span>
                                                 </div>
                                             </div>
                                             <div>
                                     <span className={`text-sm text-muted-foreground`}>
-                                        {mimeType}
+                                        {data.mimeType}
                                     </span>
                                             </div>
                                             <div>
-                                                <ObjectMenu/>
+                                                <FileMenu
+                                                    fileId={data.fileId}
+                                                    name={data.name}
+                                                    type={data.type}
+                                                    createTime={data.createTime}
+                                                    size={data.size}
+                                                    mimeType={data.mimeType}
+                                                    md5={data.md5}
+                                                    downloadUrl={data.downloadUrl}
+                                                    modTime={data.modTime}
+                                                    parentFolder={data.parentFolder}
+                                                />
                                             </div>
 
                                         </div>
