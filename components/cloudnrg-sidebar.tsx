@@ -18,6 +18,10 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import NavUser from "@/components/nav-user";
+import Link from "next/link";
+import Cookies from "js-cookie";
+import NavUnloggedUser from "@/components/nav-unlogged";
+import {useEffect, useState} from "react";
 
 const navItems = [
     {
@@ -43,13 +47,17 @@ const navItems = [
 
 ]
 
-const userData = {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/pfp.jpg",
-}
+
 
 export default function CloudNRGSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+    //TODO: Fetch user data from API or cookies, it doesnt work with user effect because it needs to be server side rendered
+    const userData = {
+        name:  "Guest",
+        email: "test@example.com",
+    }
+
+
     return (
         <Sidebar collapsible="offcanvas" {...props}>
             <SidebarHeader>
@@ -59,13 +67,13 @@ export default function CloudNRGSidebar({ ...props }: React.ComponentProps<typeo
                             asChild
                             className="data-[slot=sidebar-menu-button]:!p-1.5"
                         >
-                            <a href="/dashboard" className={`h-fit`}>
+                            <Link href="/" className={`h-fit`}>
                                 <div className={`flex flex-row items-center`}>
                                     <span className="text-3xl font-semibold">Cloud</span>
                                     <span className="text-3xl font-bold text-primary">NRG</span>
                                     <CloudLightning className="h-8 w-8 ml-2" />
                                 </div>
-                            </a>
+                            </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
@@ -94,7 +102,7 @@ export default function CloudNRGSidebar({ ...props }: React.ComponentProps<typeo
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={userData}/>
+                <NavUser user={userData} />
             </SidebarFooter>
         </Sidebar>
     );
