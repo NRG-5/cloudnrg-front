@@ -6,5 +6,6 @@ export function POST() {
     response.cookies.delete('token');
     response.cookies.delete('userId');
     response.cookies.delete('username');
+    response.cookies.delete('rootId');
     return response;
 }

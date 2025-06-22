@@ -15,9 +15,11 @@ export default function FileInfoDialog(
     }){
     return (
         <DialogContent className={``}>
-            <div className={`break-all`}>
-                <span className={`text-xl font-semibold`}> {name} </span>
-            </div>
+            <DialogHeader>
+                <div className={`break-all`}>
+                    <DialogTitle className={`text-xl font-semibold`}> {name} </DialogTitle>
+                </div>
+            </DialogHeader>
             <Separator/>
             <div>
                 <span className={`text-xl font-semibold`}> General Information </span>

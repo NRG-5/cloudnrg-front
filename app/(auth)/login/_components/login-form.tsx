@@ -16,8 +16,9 @@ import {
 import { Input } from "@/components/ui/input"
 import {useState} from "react";
 import {LoaderCircle} from "lucide-react";
-import {redirect} from "next/navigation";
+import {redirect, useRouter} from "next/navigation";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 const loginSchema = z.object({
     username: z.string().min(3, {
@@ -31,6 +32,8 @@ const loginSchema = z.object({
 export default function LoginForm(){
 
     const [loading, setLoading] = useState(false);
+
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
@@ -53,11 +56,37 @@ export default function LoginForm(){
         });
 
         if (!response.ok) {
+            setLoading(false);
             throw new Error('Login failed');
         }
-        else if (response.ok) {
-            redirect('/dashboard');
+
+        const tokenResponse = await fetch('/api/auth/cookie', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!tokenResponse.ok) {
+            setLoading(false);
+            throw new Error('Failed to retrieve token');
         }
+
+        const { token } = await tokenResponse.json();
+
+        const folderResponse = await fetch('http://localhost:8090/api/v1/folders/root', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token || ''}`,
+            },
+        });
+
+        const data = await folderResponse.json();
+
+        Cookies.set('rootId', data.id);
+
+        router.push(`/dashboard/${data.id}`);
 
         setLoading(false);
     }

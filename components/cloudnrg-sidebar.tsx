@@ -22,12 +22,14 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import NavUnloggedUser from "@/components/nav-unlogged";
 import {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
+import {Button} from "@/components/ui/button";
 
 const navItems = [
     {
         icon: Files,
         name: "Dashboard",
-        href: "/dashboard"
+        href: `/dashboard`
     },
     {
         icon: ChartArea,
@@ -47,14 +49,48 @@ const navItems = [
 
 ]
 
-
-
 export default function CloudNRGSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
-    //TODO: Fetch user data from API or cookies, it doesnt work with user effect because it needs to be server side rendered
-    const userData = {
+    const router = useRouter();
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState<{name : string  , email: string}>({
         name:  "Guest",
         email: "test@example.com",
+    });
+
+    useEffect(() => {
+        async function fetchTokenData() {
+            const tokenResponse = await fetch('/api/auth/cookie', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const { token } = await tokenResponse.json();
+
+            if (token) {
+
+                setUser({ name : Cookies.get('username') || "Guest" , email: "test@example.com" })
+                setIsLoggedIn(true);
+            } else {
+                setIsLoggedIn(false);
+            }
+        }
+
+        fetchTokenData();
+
+        //TODO: make this react when log in and log out
+
+    }, []);
+
+    function goToFixed(name : string, href: string){
+        if (name === 'Dashboard') {
+            const rootId = Cookies.get('rootId');
+            return router.push(`${href}/${rootId}`);
+        }
+        return router.push(href);
     }
 
 
@@ -89,10 +125,11 @@ export default function CloudNRGSidebar({ ...props }: React.ComponentProps<typeo
                                             asChild
                                             className="data-[slot=sidebar-menu-button]:!p-1.5"
                                         >
-                                            <a href={href}>
+                                            <div onClick={() => goToFixed(name,href) } >
                                                 <Icon className="h-5 w-5" />
                                                 <span className="text-base font-semibold">{name}</span>
-                                            </a>
+                                            </div>
+
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
                                 ))
@@ -102,7 +139,12 @@ export default function CloudNRGSidebar({ ...props }: React.ComponentProps<typeo
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={userData} />
+                {
+                    isLoggedIn ?
+                        <NavUser user={user} />
+                        :
+                        <NavUnloggedUser />
+                }
             </SidebarFooter>
         </Sidebar>
     );

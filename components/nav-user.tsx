@@ -29,6 +29,7 @@ export default function NavUser({user } : { user : { name: string , email: strin
 
 
 
+
     async function handleLogout() {
         const response = await fetch('/api/auth/logout', {
             method: 'POST',

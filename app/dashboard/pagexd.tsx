@@ -1,6 +1,6 @@
 'use client';
 
-import FolderDisplay from "@/app/dashboard/_components/FolderDisplay";
+import RootFolderDisplay from "@/app/dashboard/_components/RootFolderDisplay";
 import FolderMenuBar from "@/app/dashboard/_components/FolderMenuBar";
 import { Separator } from "@/components/ui/separator"
 import {
@@ -165,9 +165,7 @@ export default function DashboardPage() {
 
     const [folders, setFolders] = useState<Folder[]>([]);
     const [files, setFiles] = useState<File[]>([]);
-
     const [folderHierarchy, setFolderHierarchy] = useState([]);
-
     const [currentFolder, setCurrentFolder] = useState<Folder>();
 
 
@@ -227,7 +225,7 @@ export default function DashboardPage() {
         <div className={`p-6`}>
             <div className={`w-full`}>
                 {
-                    currentFolder && files && <FolderDisplay
+                    currentFolder && files && <RootFolderDisplay
                         filesLength={files.length}
                         folderName={currentFolder.name}
                         folderCreateTime={currentFolder.createTime}/>
