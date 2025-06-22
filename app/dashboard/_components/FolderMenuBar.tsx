@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import {Checkbox} from "@/components/ui/checkbox";
 
 const userId = "2c1405c6-43b0-4fb0-a23f-877427943382";
 const folderId = "65e00d9c-6230-4a32-ae8e-8c6ecd25842e";
@@ -56,27 +57,43 @@ export default function FolderMenuBar() {
     };
 
     return (
-        <div className="flex justify-end">
-            <form onSubmit={onSubmit} className="flex gap-4">
-                <Input
-                    type="file"
-                    name="file"
-                    onChange={(e) => setFile(e.target.files?.[0])}
-                    required
-                />
-                <Button type="submit" disabled={loading || !file}>
-                    <Upload className="h-4 w-4 mr-2" />
-                    {loading ? "Uploading..." : "Upload"}
-                </Button>
-            </form>
+        <div className="flex justify-between items-center">
 
-            {error && (
-                <div className="text-red-500 mt-2">
-                    {error.startsWith('<!DOCTYPE html>')
-                        ? "Failed to reach the server (404 error)"
-                        : error}
-                </div>
-            )}
+
+
+            <div className={`flex items-center gap-4`}>
+
+                <Button variant={`secondary`}>
+                    Refresh
+                </Button>
+
+                <Button variant={`secondary`}>
+                    Create Folder
+                </Button>
+
+
+
+                <form onSubmit={onSubmit} className="flex gap-4">
+                    <Input
+                        type="file"
+                        name="file"
+                        onChange={(e) => setFile(e.target.files?.[0])}
+                        required
+                    />
+                    <Button type="submit" disabled={loading || !file}>
+                        <Upload className="h-4 w-4 mr-2" />
+                        {loading ? "Uploading..." : "Upload"}
+                    </Button>
+                </form>
+
+                {error && (
+                    <div className="text-red-500 mt-2">
+                        {error.startsWith('<!DOCTYPE html>')
+                            ? "Failed to reach the server (404 error)"
+                            : error}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

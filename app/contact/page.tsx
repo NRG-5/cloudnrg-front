@@ -51,7 +51,7 @@ export default function ContactPage(){
 
     return (
         <div className={`flex justify-center p-6`}>
-            <div className={` space-y-8 max-w-3xl`}>
+            <div className={` space-y-8 max-w-xl`}>
                 <h1 className={`text-center text-4xl font-medium mb-4`}>
                     Contact Us
                 </h1>

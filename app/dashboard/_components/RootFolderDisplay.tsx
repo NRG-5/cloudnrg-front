@@ -1,13 +1,19 @@
-import {FolderOpen} from "lucide-react";
+import {FolderOpen, Undo2} from "lucide-react";
 import {Badge} from "@/components/ui/badge";
+import {Button} from "@/components/ui/button";
+import GoBackButton from "@/app/dashboard/[folderId]/_components/go-back-button";
 
-export default function FolderDisplay(
-    {filesLength, folderName, folderCreateTime} :
-    {filesLength: number, folderName: string, folderCreateTime: number}
+export default function RootFolderDisplay(
+    {filesLength, folderName, folderCreateTime, parentFolderId} :
+    {filesLength: number, folderName: string, folderCreateTime: number, parentFolderId: string | null}
 ){
     return (
         <>
-            <div className={`flex flex-row items-center gap-4`}>
+            <div className={`flex relative flex-row items-center gap-4`}>
+                {
+                    (parentFolderId !== null) &&
+                    <GoBackButton parentFolderId={parentFolderId}/>
+                }
                 <div className={`relative`}>
                     <FolderOpen className={`h-15 w-15`}/>
                     <Badge className={`absolute right-0 -bottom-1`}> {filesLength} </Badge>
@@ -19,6 +25,7 @@ export default function FolderDisplay(
                         </span>
 
                 </div>
+                {/*<FileMenu/>*/}
             </div>
         </>
     );
