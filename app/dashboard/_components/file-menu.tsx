@@ -74,7 +74,7 @@ export default function FileMenu(
                         <EllipsisVerticalIcon className={`h-15 w-15`}/>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="start">
+                <DropdownMenuContent className="w-56" align="end">
 
                     <DropdownMenuGroup>
 

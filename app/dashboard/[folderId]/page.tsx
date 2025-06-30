@@ -115,7 +115,10 @@ export default async function DashboardPageA({params,}: {
                 }
             </div>
             <div>
-                <Checkbox/>
+                <div>
+                    controls xd
+                    <Checkbox/>
+                </div>
                 <FolderMenuBar/>
             </div>
             <Separator className="mt-4"/>
@@ -130,12 +133,11 @@ export default async function DashboardPageA({params,}: {
                     files.length > 0 && files.map(({data}, index) => (
                         <div key={index} className={`w-full`}>
 
-                            <div className={`flex items-center min-h-20`}>
-                                {/*make use their mimetype or use the unknown file type*/}
+                            <div className={`flex items-center justify-between min-h-20 w-full`}>
+                                <div className={`flex items-center `}>
 
-                                <Checkbox/>
+                                    <Checkbox className={`mr-4`}/>
 
-                                <div className={` flex gap-2 items-center `}>
                                     <div>
                                         {
                                             (() => {
@@ -146,20 +148,22 @@ export default async function DashboardPageA({params,}: {
                                         }
                                     </div>
                                     <div>
-                                        <div className="relative w-100 overflow-hidden" title={data.name}>
+                                        <div className="w-100 " title={data.name}>
                                             <span className="text-xl font-semibold truncate block">{data.name}</span>
                                         </div>
                                         <span className={`text-sm text-muted-foreground`}>
-                                    {new Date(data.createTime).toLocaleString()}
-                                </span>
+                                            {new Date(data.createTime).toLocaleString()}
+                                        </span>
                                     </div>
                                 </div>
-                                <div>
-                                    <span className={`text-sm text-muted-foreground`}>
+
+
+                                <span className={`text-sm text-muted-foreground`}>
                                         {data.mimeType}
-                                    </span>
-                                </div>
+                                </span>
+
                                 <div>
+
                                     <FileMenu
                                         fileId={data.fileId}
                                         name={data.name}
@@ -175,6 +179,8 @@ export default async function DashboardPageA({params,}: {
                                 </div>
 
                             </div>
+
+
                             <Separator className=""/>
                         </div>
                     ))
