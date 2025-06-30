@@ -80,7 +80,7 @@ export default async function DashboardPageA({params,}: {
         },
         cache: 'no-store' // Use 'no-store' to ensure fresh data on every request
     });
-    const currfolder : Folder = await currFolderRes.json();
+    const currFolder : Folder = await currFolderRes.json();
 
     //API call to get files in the current folder
     const foldersRes = await fetch(`http://localhost:8090/api/v1/folders/parent/${folderId}`, {
@@ -102,17 +102,15 @@ export default async function DashboardPageA({params,}: {
     });
     const files: File[] = await filesRes.json();
 
-
-
     return (
         <div className={`p-6`}>
             <div className={`w-full`}>
                 {
-                    currfolder && <RootFolderDisplay
+                    currFolder && <RootFolderDisplay
                         filesLength={files.length}
-                        folderName={currfolder.name}
-                        folderCreateTime={currfolder.createTime}
-                        parentFolderId={currfolder.parentFolderId}
+                        folderName={currFolder.name}
+                        folderCreateTime={currFolder.createTime}
+                        parentFolderId={currFolder.parentFolderId}
                     />
                 }
             </div>
@@ -137,7 +135,7 @@ export default async function DashboardPageA({params,}: {
 
                                 <Checkbox/>
 
-                                <div className={`w-70 flex gap-2 items-center`}>
+                                <div className={` flex gap-2 items-center `}>
                                     <div>
                                         {
                                             (() => {
@@ -148,8 +146,8 @@ export default async function DashboardPageA({params,}: {
                                         }
                                     </div>
                                     <div>
-                                        <div className={`relative`}>
-                                            <span className={`text-xl font-semibold`}>{data.name}</span>
+                                        <div className="relative w-100 overflow-hidden" title={data.name}>
+                                            <span className="text-xl font-semibold truncate block">{data.name}</span>
                                         </div>
                                         <span className={`text-sm text-muted-foreground`}>
                                     {new Date(data.createTime).toLocaleString()}

@@ -16,7 +16,7 @@ export default function RootFolderDisplay(
                 }
                 <div className={`relative`}>
                     <FolderOpen className={`h-15 w-15`}/>
-                    <Badge className={`absolute right-0 -bottom-1`}> {filesLength} </Badge>
+                    <Badge className={`absolute right-0 -bottom-1`}> {filesLength || 0} </Badge>
                 </div>
                 <div className={`flex flex-col justify-between`}>
                     <span className={`text-xl font-semibold`}>{folderName}</span>
