@@ -63,15 +63,15 @@ export default function FolderMenuBar() {
 
             <div className={`flex items-center gap-4`}>
 
-                <Button variant={`secondary`}>
-                    Refresh
-                </Button>
 
-                <Button variant={`secondary`}>
+
+                <Button variant={`secondary`} size={`sm`}>
                     Create Folder
                 </Button>
 
-
+                <Button variant={`secondary`} size={`sm`}>
+                    Search
+                </Button>
 
                 <form onSubmit={onSubmit} className="flex gap-4">
                     <Input
@@ -80,7 +80,7 @@ export default function FolderMenuBar() {
                         onChange={(e) => setFile(e.target.files?.[0])}
                         required
                     />
-                    <Button type="submit" disabled={loading || !file}>
+                    <Button type="submit" disabled={loading || !file} size={`sm`}>
                         <Upload className="h-4 w-4 mr-2" />
                         {loading ? "Uploading..." : "Upload"}
                     </Button>
@@ -93,6 +93,10 @@ export default function FolderMenuBar() {
                             : error}
                     </div>
                 )}
+
+                <Button variant={`secondary`} size={`sm`}>
+                    Refresh
+                </Button>
             </div>
         </div>
     );

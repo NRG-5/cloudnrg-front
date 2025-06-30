@@ -1,4 +1,5 @@
 
+
 const folderHierarchy = {
     "id": "479904c7-4d3f-4332-b186-b737eab45b85",
     "name": "root",
@@ -49,17 +50,16 @@ const folderHierarchy = {
 }
 
 import {
-    Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
 
 
 
 export default function FolderHierarchyDialog(){
+
     return (
         <DialogContent>
             <DialogHeader>
@@ -79,13 +79,13 @@ export default function FolderHierarchyDialog(){
 }
 
 
-function renderFolders(folder: any) {
+function renderFolders(folder: FolderHierarchy) {
     return (
         <div key={folder.id} className={folder.name != "root" ? "pl-4" : "" }>
             <div className="w-full p-2 border-b hover:bg-muted">
                 {folder.name}
             </div>
-            {folder.children && folder.children.map((child: any) => renderFolders(child))}
+            {folder.children && folder.children.map((child: FolderHierarchy) => renderFolders(child))}
         </div>
     );
 }
