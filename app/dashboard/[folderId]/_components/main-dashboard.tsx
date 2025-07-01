@@ -132,11 +132,6 @@ export default function MainDashboard({folders,files,folderHierarchy} : { folder
                                 <Button size={`icon`}
                                         variant={`outline`}
                                         onClick={() => handlePrintSelected()}>
-                                    <Download className={`h-4 w-4`}/>
-                                </Button>
-                                <Button size={`icon`}
-                                        variant={`outline`}
-                                        onClick={() => handlePrintSelected()}>
                                     <Move className={`h-4 w-4`}/>
                                 </Button>
                                 <Button size={`icon`}

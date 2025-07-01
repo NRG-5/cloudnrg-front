@@ -20,6 +20,9 @@ import FolderHierarchyDialog from "@/app/dashboard/_components/folder-hierarchy-
 import {Dialog, DialogTrigger} from "@/components/ui/dialog";
 import {useState} from "react";
 import FileInfoDialog from "@/app/dashboard/_components/file-info-dialog";
+import {useRouter} from "next/navigation";
+import {getFileAction} from "@/actions/file/get-file-action";
+import {toast} from "sonner";
 
 export type FolderHierarchy = {
     id: string;
@@ -58,6 +61,31 @@ export default function FileMenu(
 
     const [dialog, setDialog] = useState<Dialogs>();
 
+    const router = useRouter();
+
+    async function handleDownload() {
+
+        const response = await getFileAction(fileId);
+        if (response.error) {
+            toast.error("Failed to download file.");
+            return;
+        }
+
+        const blob = response.data;
+        if (!(blob instanceof Blob)) {
+            toast.error("Failed to download file.");
+            return;
+        }
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement(`a`);
+        link.href = url;
+        link.download = `${name}`;
+        link.click();
+        URL.revokeObjectURL(url);
+
+    }
+
     return (
         <Dialog>
             <DropdownMenu>
@@ -79,7 +107,8 @@ export default function FileMenu(
                                 Info
                             </DropdownMenuItem>
                         </DialogTrigger>
-                        <DropdownMenuItem>
+
+                        <DropdownMenuItem onClick={() => handleDownload()}>
                             Download
                         </DropdownMenuItem>
 
@@ -112,16 +141,13 @@ export default function FileMenu(
 
                             <DropdownMenuPortal>
                                 <DropdownMenuSubContent>
-
-                                    <DropdownMenuItem>Root Folder</DropdownMenuItem>
-
                                     <DialogTrigger asChild
                                                    onClick={() => {
                                                        setDialog(Dialogs.move)
                                                    }}
                                     >
                                         <DropdownMenuItem>
-                                            More...
+                                            Select Folder
                                         </DropdownMenuItem>
                                     </DialogTrigger>
 
@@ -136,7 +162,7 @@ export default function FileMenu(
             </DropdownMenu>
 
             {
-                dialog === Dialogs.move && <FolderHierarchyDialog folderHierarchy={folderHierarchy}/>
+                dialog === Dialogs.move && <FolderHierarchyDialog folderHierarchy={folderHierarchy} fileId={fileId}/>
             }
             {
                 dialog === Dialogs.info && <FileInfoDialog

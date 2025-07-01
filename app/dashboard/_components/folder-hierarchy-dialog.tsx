@@ -1,4 +1,4 @@
-
+'use client'
 
 import {
     DialogContent,
@@ -6,6 +6,9 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
+import {useRouter} from "next/navigation";
+import {updateFileParentFolderAction} from "@/actions/file/update-file-parent-folder-action";
+import {toast} from "sonner";
 
 
 export type FolderHierarchy = {
@@ -17,7 +20,41 @@ export type FolderHierarchy = {
     modTime: number;
     children: FolderHierarchy[];
 }
-export default function FolderHierarchyDialog({folderHierarchy} : {folderHierarchy : FolderHierarchy}){
+export default function FolderHierarchyDialog({folderHierarchy , fileId} : {folderHierarchy : FolderHierarchy, fileId: string}) {
+
+    const router = useRouter();
+
+
+
+    async function moveFileToFolder(folderId: string, fileId: string) {
+
+        const response = await updateFileParentFolderAction(folderId, fileId);
+        if (response.error) {
+            console.error("Error moving file:", response.error);
+            return;
+        }
+        toast.success('File moved successfully');
+        router.push(`/dashboard/${folderId}`);
+
+    }
+
+    function renderFolders(folder: FolderHierarchy, depth = 0) {
+
+        const indentation = '— '.repeat(depth);
+
+        return (
+            <div key={folder.id}>
+                <div className="w-full p-2 border-b hover:bg-muted cursor-pointer"
+                     onClick={() => moveFileToFolder(folder.id, fileId)}>
+
+                    {indentation && <span className="text-muted-foreground">{indentation}</span>}
+                    {folder.name}
+                </div>
+                {/* Recursively render children with increased depth */}
+                {folder.children && folder.children.map((child: FolderHierarchy) => renderFolders(child, depth + 1))}
+            </div>
+        );
+    }
 
     return (
         <DialogContent>
@@ -39,20 +76,4 @@ export default function FolderHierarchyDialog({folderHierarchy} : {folderHierarc
 
 
 
-function renderFolders(folder: FolderHierarchy, depth = 0) {
-    // Create an indentation string based on the depth.
-    // The root folder (depth 0) will have no indentation.
-    const indentation = '— '.repeat(depth);
 
-    return (
-        <div key={folder.id}>
-            <div className="w-full p-2 border-b hover:bg-muted cursor-pointer">
-                {/* Only show indentation if it exists */}
-                {indentation && <span className="text-muted-foreground">{indentation}</span>}
-                {folder.name}
-            </div>
-            {/* Recursively render children with increased depth */}
-            {folder.children && folder.children.map((child: FolderHierarchy) => renderFolders(child, depth + 1))}
-        </div>
-    );
-}

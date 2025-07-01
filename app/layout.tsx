@@ -6,6 +6,7 @@ import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
 import CloudNRGSidebar from "@/components/cloudnrg-sidebar";
 import CloudNRGHeader from "@/components/cloudnrg-header";
 import CloudNRGFooter from "@/components/cloudnrg-footer";
+import {Toaster} from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,6 +47,7 @@ export default function RootLayout({
                       {children}
                       <CloudNRGFooter/>
                   </main>
+                  <Toaster position="bottom-right" expand={false}  richColors  />
               </SidebarInset>
           </SidebarProvider>
       </ThemeProvider>

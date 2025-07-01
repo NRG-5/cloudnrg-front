@@ -5,6 +5,7 @@ import { Upload } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import {Checkbox} from "@/components/ui/checkbox";
+import CreateFolderDialog from "@/app/dashboard/[folderId]/_components/_menubar/create-folder-dialog";
 
 const userId = "2c1405c6-43b0-4fb0-a23f-877427943382";
 const folderId = "65e00d9c-6230-4a32-ae8e-8c6ecd25842e";
@@ -65,9 +66,7 @@ export default function FolderMenuBar() {
 
 
 
-                <Button variant={`secondary`} size={`sm`}>
-                    Create Folder
-                </Button>
+                <CreateFolderDialog/>
 
                 <Button variant={`secondary`} size={`sm`}>
                     Search

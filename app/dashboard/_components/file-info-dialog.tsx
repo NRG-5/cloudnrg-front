@@ -16,6 +16,9 @@ export default function FileInfoDialog(
     return (
         <DialogContent className={``}>
             <DialogHeader>
+                <DialogDescription>
+                    File Information
+                </DialogDescription>
                 <div className={`break-all`}>
                     <DialogTitle className={`text-xl font-semibold`}> {name} </DialogTitle>
                 </div>
