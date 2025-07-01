@@ -68,14 +68,14 @@ const mimeTypesIcons = [
     }
 ]
 
-export default function MainDashboard({folders,files} : { folders: Folder[], files: File[] }) {
+export default function MainDashboard({folders,files,folderHierarchy} : { folders: Folder[], files: File[], folderHierarchy: FolderHierarchy }) {
 
     const [selectedFolders, setSelectedFolders] = useState<string[]>([]);
     const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
 
     const allSelected =
         (selectedFolders.length !== 0 || selectedFiles.length !== 0) &&
-        folders.length !== 0 && files.length !== 0;
+        (folders.length !== 0 || files.length !== 0);
 
     function handleSelectAll() {
         if (allSelected) {
@@ -223,6 +223,7 @@ export default function MainDashboard({folders,files} : { folders: Folder[], fil
                                         downloadUrl={data.downloadUrl}
                                         modTime={data.modTime}
                                         parentFolder={data.parentFolder}
+                                        folderHierarchy={folderHierarchy}
                                     />
                                 </div>
 

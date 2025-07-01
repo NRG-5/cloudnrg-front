@@ -21,28 +21,19 @@ import {Dialog, DialogTrigger} from "@/components/ui/dialog";
 import {useState} from "react";
 import FileInfoDialog from "@/app/dashboard/_components/file-info-dialog";
 
-
-//file
-//{
-//         data: {
-//             createTime: 1747349537,
-//             downloadUrl: "",
-//             fileId: "9f001e5a-99a1-42e1-ae76-0a3001f7ddd7",
-//             md5: "ee3ceef5106721a11a64063a9ad38122",
-//             mimeType: "image/png",
-//             modTime: 1747349537,
-//             name: "Sebastian-pfp.png",
-//             parentFolder: "root",
-//             size: 152056,
-//             type: "file"
-//         },
-//         status: "ok"
-//     }
-
+export type FolderHierarchy = {
+    id: string;
+    name: string;
+    parentFolderId: string | null;
+    userId: string;
+    createTime: number;
+    modTime: number;
+    children: FolderHierarchy[];
+}
 export default function FileMenu(
     {
         createTime, downloadUrl, fileId, md5, mimeType,
-        modTime, name, parentFolder, size, type
+        modTime, name, parentFolder, size, type,folderHierarchy
     } : {
         createTime: number;
         downloadUrl: string;
@@ -54,6 +45,7 @@ export default function FileMenu(
         parentFolder: string;
         size: number;
         type: string;
+        folderHierarchy: FolderHierarchy;
     }
 ){
 
@@ -144,7 +136,7 @@ export default function FileMenu(
             </DropdownMenu>
 
             {
-                dialog === Dialogs.move && <FolderHierarchyDialog/>
+                dialog === Dialogs.move && <FolderHierarchyDialog folderHierarchy={folderHierarchy}/>
             }
             {
                 dialog === Dialogs.info && <FileInfoDialog

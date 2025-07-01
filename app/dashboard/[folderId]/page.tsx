@@ -2,14 +2,6 @@
 
 import { cookies } from 'next/headers';
 import RootFolderDisplay from "@/app/dashboard/_components/RootFolderDisplay";
-import {Checkbox} from "@/components/ui/checkbox";
-import FolderMenuBar from "@/app/dashboard/_components/FolderMenuBar";
-import {Separator} from "@/components/ui/separator";
-import {FileAudio, FileBox, FileImage, FileQuestion, FileText, FileVideo, FolderOpen} from "lucide-react";
-import FileMenu from "@/app/dashboard/_components/file-menu";
-import {redirect} from "next/navigation";
-import {Button} from "@/components/ui/button";
-import FolderDisplay from "@/app/dashboard/[folderId]/_components/folder-display";
 import MainDashboard from "@/app/dashboard/[folderId]/_components/main-dashboard";
 
 
@@ -45,7 +37,7 @@ export type FolderHierarchy = {
     modTime: number;
     children: FolderHierarchy[];
 }
-export default async function DashboardPageA({params,}: {
+export default async function DashboardPage({params,}: {
     params: Promise<{ folderId: string }>
 }){
 
@@ -92,9 +84,8 @@ export default async function DashboardPageA({params,}: {
             'Authorization': `Bearer ${token}`,
         },
     })
-    const folderHierarchy: FolderHierarchy[] = await folderHierarchyRes.json();
+    const folderHierarchy: FolderHierarchy = await folderHierarchyRes.json();
 
-    console.log(folderHierarchy);
 
     return (
         <div className={`p-6`}>
@@ -109,7 +100,7 @@ export default async function DashboardPageA({params,}: {
                 }
             </div>
 
-            <MainDashboard folders={folders} files={files} />
+            <MainDashboard folders={folders} files={files} folderHierarchy={folderHierarchy} />
 
         </div>
     );
