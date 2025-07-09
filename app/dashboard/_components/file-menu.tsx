@@ -23,6 +23,7 @@ import FileInfoDialog from "@/app/dashboard/_components/file-info-dialog";
 import {useRouter} from "next/navigation";
 import {getFileAction} from "@/actions/file/get-file-action";
 import {toast} from "sonner";
+import FileDeleteDialog from "@/app/dashboard/_components/file-delete-dialog";
 
 export type FolderHierarchy = {
     id: string;
@@ -36,7 +37,8 @@ export type FolderHierarchy = {
 export default function FileMenu(
     {
         createTime, downloadUrl, fileId, md5, mimeType,
-        modTime, name, parentFolder, size, type,folderHierarchy
+        modTime, name, parentFolder, size, type,folderHierarchy,
+        currFolderId
     } : {
         createTime: number;
         downloadUrl: string;
@@ -49,6 +51,7 @@ export default function FileMenu(
         size: number;
         type: string;
         folderHierarchy: FolderHierarchy;
+        currFolderId: string;
     }
 ){
 
@@ -174,6 +177,9 @@ export default function FileMenu(
                     mimeType={mimeType}
                     md5={md5}
                 />
+            }
+            {
+                dialog === Dialogs.delete && <FileDeleteDialog fileId={fileId} />
             }
 </Dialog>
 

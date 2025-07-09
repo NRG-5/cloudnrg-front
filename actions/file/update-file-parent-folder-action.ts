@@ -2,7 +2,7 @@
 import {cookies} from "next/headers";
 
 
-export async function updateFileParentFolderAction(folderId: string, fileId: string[]){
+export async function updateFileParentFolderAction(folderId: string, fileIds: string[]){
     'use server'
 
     const cookieStore = await cookies();
@@ -21,7 +21,7 @@ export async function updateFileParentFolderAction(folderId: string, fileId: str
                 'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
-                fileIds: [fileId],
+                fileIds: fileIds,
                 newParentFolderId: folderId
             })
         });

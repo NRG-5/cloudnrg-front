@@ -47,7 +47,7 @@ export default async function DashboardPage({params,}: {
     const { folderId } = await params;
 
     // API call to get current folder data
-    const currFolderRes = await fetch(`http://localhost:8090/api/v1/folders?folderId=${folderId}`, {
+    const currFolderRes = await fetch(`${process.env.BASE_URL}/folders?folderId=${folderId}`, {
         method: 'GET',
         headers: {
             'accept': 'application/json',
@@ -58,7 +58,7 @@ export default async function DashboardPage({params,}: {
     const currFolder : Folder = await currFolderRes.json();
 
     //API call to get files in the current folder
-    const foldersRes = await fetch(`http://localhost:8090/api/v1/folders/parent/${folderId}`, {
+    const foldersRes = await fetch(`${process.env.BASE_URL}/folders/parent/${folderId}`, {
         method: 'GET',
         headers: {
             'accept': 'application/json',
@@ -68,7 +68,7 @@ export default async function DashboardPage({params,}: {
     const folders: Folder[] = await foldersRes.json();
 
     //API call to get files in the current folder
-    const filesRes = await fetch(`http://localhost:8090/api/v1/files/folder/${folderId}`, {
+    const filesRes = await fetch(`${process.env.BASE_URL}/files/folder/${folderId}`, {
         method: 'GET',
         headers: {
             'accept': 'application/json',
@@ -77,7 +77,7 @@ export default async function DashboardPage({params,}: {
     });
     const files: File[] = await filesRes.json();
 
-    const folderHierarchyRes = await fetch(`http://localhost:8090/api/v1/folders/hierarchy`,{
+    const folderHierarchyRes = await fetch(`${process.env.BASE_URL}/folders/hierarchy`,{
         method: 'GET',
         headers: {
             'accept': 'application/json',
@@ -100,7 +100,7 @@ export default async function DashboardPage({params,}: {
                 }
             </div>
 
-            <MainDashboard folders={folders} files={files} folderHierarchy={folderHierarchy} />
+            <MainDashboard folders={folders} files={files} folderHierarchy={folderHierarchy} currFolderId={folderId}/>
 
         </div>
     );

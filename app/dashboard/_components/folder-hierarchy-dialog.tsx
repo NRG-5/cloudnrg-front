@@ -28,7 +28,7 @@ export default function FolderHierarchyDialog({folderHierarchy , fileId} : {fold
 
     async function moveFileToFolder(folderId: string, fileId: string) {
 
-        const response = await updateFileParentFolderAction(folderId, fileId);
+        const response = await updateFileParentFolderAction(folderId, [fileId]);
         if (response.error) {
             console.error("Error moving file:", response.error);
             return;

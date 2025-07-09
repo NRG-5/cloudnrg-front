@@ -68,7 +68,8 @@ const mimeTypesIcons = [
     }
 ]
 
-export default function MainDashboard({folders,files,folderHierarchy} : { folders: Folder[], files: File[], folderHierarchy: FolderHierarchy }) {
+export default function MainDashboard({folders,files,folderHierarchy ,currFolderId } :
+{ folders: Folder[], files: File[], folderHierarchy: FolderHierarchy, currFolderId: string }) {
 
     const [selectedFolders, setSelectedFolders] = useState<string[]>([]);
     const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
@@ -219,6 +220,7 @@ export default function MainDashboard({folders,files,folderHierarchy} : { folder
                                         modTime={data.modTime}
                                         parentFolder={data.parentFolder}
                                         folderHierarchy={folderHierarchy}
+                                        currFolderId={currFolderId}
                                     />
                                 </div>
 
@@ -228,6 +230,16 @@ export default function MainDashboard({folders,files,folderHierarchy} : { folder
                             <Separator className=""/>
                         </div>
                     ))
+                }
+
+                {
+                    files.length === 0 && folders.length === 0 &&
+                    <div className={`h-full  mt-8`}>
+                        <div className={`flex flex-col items-center justify-center h-full`}>
+                            <FileQuestion className={`h-20 w-20 text-muted-foreground`}/>
+                            <span className={`text-muted-foreground mt-4`}>No files or folders found.</span>
+                        </div>
+                    </div>
                 }
             </div>
             </>
