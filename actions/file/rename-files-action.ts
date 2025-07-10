@@ -1,9 +1,9 @@
+// file: actions/file/rename-files-action.ts
 'use server'
 
+import { cookies } from 'next/headers';
 
-import {cookies} from "next/headers";
-
-export async function renameFileAction(fileId : string, name: string){
+export async function renameFileAction(fileId: string, fileName: string) {
     'use server'
 
     const cookieStore = await cookies();
@@ -13,25 +13,26 @@ export async function renameFileAction(fileId : string, name: string){
         return { error: "Not authenticated" };
     }
 
-    try{
-        const fileRes = await fetch(`${process.env.BASE_URL}/files/${fileId}/name?=${name}`, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`,
+    try {
+        const res = await fetch(
+            `${process.env.BASE_URL}/files/${fileId}/name?fileName=${encodeURIComponent(fileName)}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
             }
-        });
+        );
 
-        if (!fileRes.ok) {
-            return { error:  "Failed to delete files." };
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({ message: res.statusText }));
+            return { error: err.message || "Failed to rename file." };
         }
 
-        const data = await fileRes.json();
-        return { data: data };
-
-    } catch (error) {
-        console.error("Error in DeleteFilesAction:", error);
+        const data = await res.json();
+        return { data };
+    } catch {
         return { error: "An unexpected error occurred." };
     }
-
 }

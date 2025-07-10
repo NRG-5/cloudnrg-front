@@ -46,7 +46,7 @@ export default function ContactPage(){
     })
 
     function onSubmit(values: z.infer<typeof contactFormSchema>) {
-        console.log(values)
+        //console.log(values)
     }
 
     return (

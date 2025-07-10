@@ -24,6 +24,7 @@ import {useRouter} from "next/navigation";
 import {getFileAction} from "@/actions/file/get-file-action";
 import {toast} from "sonner";
 import FileDeleteDialog from "@/app/dashboard/_components/file-delete-dialog";
+import FileRenameDialog from "@/app/dashboard/_components/file-rename-dialog";
 
 export type FolderHierarchy = {
     id: string;
@@ -181,7 +182,11 @@ export default function FileMenu(
             {
                 dialog === Dialogs.delete && <FileDeleteDialog fileId={fileId} />
             }
-</Dialog>
+            {
+                dialog === Dialogs.rename && <FileRenameDialog fileId={fileId} currName={name}/>
+            }
+
+        </Dialog>
 
     );
 }

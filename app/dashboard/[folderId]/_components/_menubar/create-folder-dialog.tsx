@@ -101,7 +101,8 @@ export default function CreateFolderDialog() {
                                 <Button variant="outline" disabled={loading}>Cancel</Button>
                             </DialogClose>
                             <Button type="submit" disabled={loading} size={`default`}>
-                                {loading ? <Loader2Icon className="animate-spin" /> : `Create`}
+                                {loading && <Loader2Icon className="animate-spin" /> }
+                                Create Folder
                             </Button>
                         </DialogFooter>
                     </form>

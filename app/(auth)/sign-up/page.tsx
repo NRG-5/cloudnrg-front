@@ -1,6 +1,6 @@
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import LoginForm from "@/app/(auth)/login/_components/login-form";
 import React from "react";
+import SignUpForm from "@/app/(auth)/sign-up/sign-up-form";
 
 
 export default function SignUpPage(){
@@ -15,7 +15,7 @@ export default function SignUpPage(){
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-
+                        <SignUpForm />
                     </CardContent>
                 </Card>
 

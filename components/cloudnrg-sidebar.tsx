@@ -23,7 +23,6 @@ import Cookies from "js-cookie";
 import NavUnloggedUser from "@/components/nav-unlogged";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
-import {Button} from "@/components/ui/button";
 
 const navItems = [
     {
@@ -53,37 +52,13 @@ export default function CloudNRGSidebar({ ...props }: React.ComponentProps<typeo
 
     const router = useRouter();
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState<{name : string  , email: string}>({
         name:  "Guest",
         email: "test@example.com",
     });
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-    useEffect(() => {
-        async function fetchTokenData() {
-            const tokenResponse = await fetch('/api/auth/cookie', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
 
-            const { token } = await tokenResponse.json();
-
-            if (token) {
-
-                setUser({ name : Cookies.get('username') || "Guest" , email: "test@example.com" })
-                setIsLoggedIn(true);
-            } else {
-                setIsLoggedIn(false);
-            }
-        }
-
-        fetchTokenData();
-
-        //TODO: make this react when log in and log out
-
-    }, []);
 
     function goToFixed(name : string, href: string){
         if (name === 'Dashboard') {
@@ -139,12 +114,7 @@ export default function CloudNRGSidebar({ ...props }: React.ComponentProps<typeo
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter>
-                {
-                    isLoggedIn ?
-                        <NavUser user={user} />
-                        :
-                        <NavUnloggedUser />
-                }
+                <NavUnloggedUser/>
             </SidebarFooter>
         </Sidebar>
     );

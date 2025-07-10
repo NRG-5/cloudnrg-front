@@ -1,12 +1,25 @@
 'use client'
 
 
-import {DialogContent, DialogDescription, DialogHeader, DialogTitle} from "@/components/ui/dialog";
+import {
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
 import {useState} from "react";
 import {useRouter} from "next/navigation";
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
+import {Loader2Icon} from "lucide-react";
+import {renameFileAction} from "@/actions/file/rename-files-action";
+import {toast} from "sonner";
 
 const renameFileSchema = z.object({
     name: z.string().min(6, {
@@ -15,7 +28,7 @@ const renameFileSchema = z.object({
 })
 
 
-export default function FileDeleteDialog({fileId , currName}: {fileId: string, currName: string}) {
+export default function FileRenameDialog({fileId , currName}: {fileId: string, currName: string}) {
 
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -30,11 +43,18 @@ export default function FileDeleteDialog({fileId , currName}: {fileId: string, c
     async function onSubmit(values: z.infer<typeof renameFileSchema>) {
         setLoading(true);
 
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
+        const response = await renameFileAction(fileId, values.name);
 
-        console.log(values);
+        if (response.error) {
+            toast.error("Failed to rename file.");
+            setLoading(false);
+            return;
+        }
 
+        toast.success("File renamed successfully.");
         setLoading(false);
+        router.refresh();
+
     }
 
     return (
@@ -46,7 +66,34 @@ export default function FileDeleteDialog({fileId , currName}: {fileId: string, c
                 </DialogDescription>
             </DialogHeader>
 
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Folder Name</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="enter new name" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <DialogFooter>
+                        <DialogClose asChild>
+                            <Button variant="outline" disabled={loading}>Cancel</Button>
+                        </DialogClose>
+                        <Button type="submit" disabled={loading} size={`default`}>
+                            {loading && <Loader2Icon className="animate-spin" />}
+                            Rename File
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </Form>
+
 
         </DialogContent>
-    );
+);
 }

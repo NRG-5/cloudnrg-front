@@ -74,7 +74,8 @@ export default function LoginForm(){
 
         const { token } = await tokenResponse.json();
 
-        const folderResponse = await fetch('http://localhost:8090/api/v1/folders/root', {
+        //TODO: change call to use env variable for base URL
+        const folderResponse = await fetch(`http://localhost/api/v1/folders/root`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

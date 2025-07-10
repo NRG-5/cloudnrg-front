@@ -22,12 +22,12 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
-import {redirect} from "next/navigation";
+import {redirect, useRouter} from "next/navigation";
 export default function NavUser({user } : { user : { name: string , email: string } }) {
 
     const { isMobile } = useSidebar();
 
-
+    const router = useRouter();
 
 
     async function handleLogout() {
@@ -40,9 +40,10 @@ export default function NavUser({user } : { user : { name: string , email: strin
 
         if (!response.ok) {
             throw new Error('Logout failed');
-        } else if (response.ok) {
-            redirect('/')
         }
+
+        router.refresh();
+
     }
 
     return(

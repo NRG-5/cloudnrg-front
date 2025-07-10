@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     const { username, password } = await request.json();
 
     // Call your authentication API
-    const res = await fetch('http://localhost:8090/api/v1/authentication/sign-in', {
+    const res = await fetch(`${process.env.BASE_URL}/authentication/sign-in`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -30,7 +30,6 @@ export async function POST(request: Request) {
     response.cookies.set({
         name: 'userId',
         value: data.id,
-        httpOnly: true,
     })
 
     //set the username in the cookie
