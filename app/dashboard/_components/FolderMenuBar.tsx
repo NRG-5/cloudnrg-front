@@ -83,9 +83,9 @@ export default function FolderMenuBar({ folderId}: { folderId: string}) {
 
                 <CreateFolderDialog/>
 
-                <Button variant={`secondary`} size={`sm`}>
+                {/*<Button variant={`secondary`} size={`sm`}>
                     Search
-                </Button>
+                </Button>*/}
 
                 <form onSubmit={onSubmit} className="flex gap-4">
                     <Input
