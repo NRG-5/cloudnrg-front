@@ -13,6 +13,22 @@ export async function getFileHistoryAction(fileId: string) {
         return { error: "Not authenticated" };
     }
 
-    
+    const res = await fetch(
+        `${process.env.BASE_URL}/history/file/${fileId}`,
+        {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        }
+    );
 
+    if (!res.ok) {
+        return { error:  "Failed to fetch file history." };
+    }
+
+    const data = await res.json();
+    return { data };
+    
 }

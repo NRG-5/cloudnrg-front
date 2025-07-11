@@ -75,15 +75,18 @@ export default function LoginForm(){
         const { token } = await tokenResponse.json();
 
         //TODO: change call to use env variable for base URL
-        const folderResponse = await fetch(`http://localhost/api/v1/folders/root`, {
+        const folderResponse = await fetch(`https://c6695c803cca.ngrok-free.app/api/v1/folders/root`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token || ''}`,
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                'ngrok-skip-browser-warning': '10001',
             },
         });
 
+
         const data = await folderResponse.json();
+
 
         Cookies.set('rootId', data.id);
 

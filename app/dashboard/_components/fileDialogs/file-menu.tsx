@@ -25,6 +25,7 @@ import {getFileAction} from "@/actions/file/get-file-action";
 import {toast} from "sonner";
 import FileDeleteDialog from "@/app/dashboard/_components/fileDialogs/file-delete-dialog";
 import FileRenameDialog from "@/app/dashboard/_components/fileDialogs/file-rename-dialog";
+import FileHistoryDialog from "@/app/dashboard/_components/fileDialogs/file-history-dialog";
 
 export type FolderHierarchy = {
     id: string;
@@ -61,6 +62,7 @@ export default function FileMenu(
         delete = 'delete',
         rename = 'rename',
         move = 'move',
+        history = 'history',
     }
 
     const [dialog, setDialog] = useState<Dialogs>();
@@ -126,10 +128,15 @@ export default function FileMenu(
                             </DropdownMenuItem>
                         </DialogTrigger>
 
-                        <DropdownMenuItem>
-                            See History
-                            {/*TODO: refactor todo just when its a file*/}
-                        </DropdownMenuItem>
+                        <DialogTrigger asChild
+                                       onClick={() => {
+                                           setDialog(Dialogs.history)
+                                       }}>
+                            <DropdownMenuItem>
+                                See History
+
+                            </DropdownMenuItem>
+                        </DialogTrigger>
                         <DialogTrigger asChild
                                        onClick={() => {
                                            setDialog(Dialogs.delete)
@@ -184,6 +191,9 @@ export default function FileMenu(
             }
             {
                 dialog === Dialogs.rename && <FileRenameDialog fileId={fileId} currName={name}/>
+            }
+            {
+                dialog === Dialogs.history && <FileHistoryDialog fileId={fileId}/>
             }
 
         </Dialog>
