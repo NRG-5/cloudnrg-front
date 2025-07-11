@@ -3,12 +3,28 @@
 import {Checkbox} from "@/components/ui/checkbox";
 import FolderDisplay from "@/app/dashboard/[folderId]/_components/folder-display";
 import {Separator} from "@/components/ui/separator";
-import {Download, FileAudio, FileBox, FileImage, FileQuestion, FileText, FileVideo, Move, Trash} from "lucide-react";
+import {
+    Download,
+    FileAudio,
+    FileBox,
+    FileImage,
+    FileQuestion,
+    FileText,
+    FileVideo,
+    Loader2Icon,
+    Move,
+    Trash
+} from "lucide-react";
 import FileMenu from "@/app/dashboard/_components/fileDialogs/file-menu";
 import FolderMenuBar from "@/app/dashboard/_components/FolderMenuBar";
 import { useState } from 'react';
 import {Button} from "@/components/ui/button";
 import FolderMenu from "@/app/dashboard/_components/folder-menu";
+import {useRouter} from "next/navigation";
+import {deleteFoldersAction} from "@/actions/folder/delete-folders-action";
+import {DeleteFilesAction} from "@/actions/file/delete-files-action";
+import {toast} from "sonner";
+import MultipleMoveDialog from "@/app/dashboard/[folderId]/_components/multiple-move-dialog";
 
 export type Folder = {
     id: string;
@@ -75,6 +91,10 @@ export default function MainDashboard({folders,files,folderHierarchy ,currFolder
     const [selectedFolders, setSelectedFolders] = useState<string[]>([]);
     const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
 
+    const [loading1, setLoading1] = useState(false);
+
+    const router = useRouter();
+
     const allSelected =
         (selectedFolders.length !== 0 || selectedFiles.length !== 0) &&
         (folders.length !== 0 || files.length !== 0);
@@ -106,8 +126,22 @@ export default function MainDashboard({folders,files,folderHierarchy ,currFolder
         console.log(`Files:`, selectedFiles);
     }
 
-    
+    async function handleMultipleDelete() {
+        setLoading1(true);
 
+        const folderRes = await deleteFoldersAction(selectedFolders);
+        const fileRes = await DeleteFilesAction(selectedFiles);
+
+        if (folderRes.error || fileRes.error) {
+            toast.error("Failed to delete the objects.");
+            setLoading1(false);
+            return;
+        }
+
+        toast.success("Objects deleted successfully.");
+        setLoading1(false);
+        router.refresh();
+    }
 
     return(
         <>
@@ -119,29 +153,23 @@ export default function MainDashboard({folders,files,folderHierarchy ,currFolder
                                 checked={allSelected}
                                 disabled={folders.length === 0 && files.length === 0}
                                 onCheckedChange={handleSelectAll}/>
-                            {
-                                (selectedFiles.length > 0 || selectedFolders.length> 0) &&
-                                <>
-                                    <div className={`absolute -right-5 -top-2 bg-muted rounded-full w-6 h-6 text-center`}>
-                                        { selectedFiles.length + selectedFolders.length}
-                                    </div>
-                                </>
-                            }
+
+                            <div className={`absolute -right-5 -top-2 bg-muted rounded-full w-6 h-6 text-center`}>
+                                {selectedFiles.length + selectedFolders.length}
+                            </div>
 
                         </div>
 
                         {
-                            (selectedFiles.length > 0 || selectedFolders.length> 0) &&
+                            (selectedFiles.length > 0 || selectedFolders.length > 0) &&
                             <>
+                                <MultipleMoveDialog folderHierarchy={folderHierarchy} selectedFolderIds={selectedFolders} selectedFileIds={selectedFiles} />
                                 <Button size={`icon`}
                                         variant={`outline`}
-                                        onClick={() => handlePrintSelected()}>
-                                    <Move className={`h-4 w-4`}/>
-                                </Button>
-                                <Button size={`icon`}
-                                        variant={`outline`}
-                                        onClick={() => handlePrintSelected()}>
-                                    <Trash className={`h-4 w-4`}/>
+                                        onClick={() => handleMultipleDelete()}>
+                                    {
+                                        loading1 ? <Loader2Icon className="animate-spin h-4 w-4"/> : <Trash className={`h-4 w-4`}/>
+                                    }
                                 </Button>
                             </>
                         }
