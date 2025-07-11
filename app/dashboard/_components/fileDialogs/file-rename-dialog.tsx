@@ -18,12 +18,12 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {Loader2Icon} from "lucide-react";
-import {renameFileAction} from "@/actions/file/rename-files-action";
+import {renameFileAction} from "@/actions/file/rename-file-action";
 import {toast} from "sonner";
 
 const renameFileSchema = z.object({
-    name: z.string().min(6, {
-        message: "Folder name must be at least 5 characters long",
+    name: z.string().min(2, {
+        message: "File name must be at least 2 characters long",
     }),
 })
 

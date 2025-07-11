@@ -4,10 +4,11 @@ import {Checkbox} from "@/components/ui/checkbox";
 import FolderDisplay from "@/app/dashboard/[folderId]/_components/folder-display";
 import {Separator} from "@/components/ui/separator";
 import {Download, FileAudio, FileBox, FileImage, FileQuestion, FileText, FileVideo, Move, Trash} from "lucide-react";
-import FileMenu from "@/app/dashboard/_components/file-menu";
+import FileMenu from "@/app/dashboard/_components/fileDialogs/file-menu";
 import FolderMenuBar from "@/app/dashboard/_components/FolderMenuBar";
 import { useState } from 'react';
 import {Button} from "@/components/ui/button";
+import FolderMenu from "@/app/dashboard/_components/folder-menu";
 
 export type Folder = {
     id: string;
@@ -105,6 +106,8 @@ export default function MainDashboard({folders,files,folderHierarchy ,currFolder
         console.log(`Files:`, selectedFiles);
     }
 
+    
+
 
     return(
         <>
@@ -144,7 +147,7 @@ export default function MainDashboard({folders,files,folderHierarchy ,currFolder
                         }
                     </div>
 
-                    <FolderMenuBar/>
+                    <FolderMenuBar folderId={currFolderId} />
                 </div>
 
             </div>
@@ -154,14 +157,24 @@ export default function MainDashboard({folders,files,folderHierarchy ,currFolder
                 {
                     folders.length > 0 && folders.map((folder) => (
                         <div className={`w-full`} key={folder.id}>
-                            <div className={`flex items-center min-h-20 `}>
-                                <Checkbox
-                                    className="mr-4"
-                                    checked={selectedFolders.includes(folder.id)}
-                                    onCheckedChange={() => handleCheckFolder(folder.id)}
-                                />
+                            <div className={`flex items-center justify-between min-h-20 `}>
+                                <div className={`flex items-center`}>
+                                    <Checkbox
+                                        className="mr-4"
+                                        checked={selectedFolders.includes(folder.id)}
+                                        onCheckedChange={() => handleCheckFolder(folder.id)}
+                                    />
 
-                                <FolderDisplay folder={folder}/>
+                                    <FolderDisplay folder={folder}/>
+                                </div>
+
+                                <FolderMenu
+                                    folderHierarchy={folderHierarchy}
+                                    folderId={folder.id}
+                                    folderName={folder.name}
+                                    createTime={folder.createTime}
+                                    modTime={folder.modTime}
+                                />
                             </div>
                             <Separator className=""/>
                         </div>

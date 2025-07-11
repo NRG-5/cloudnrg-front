@@ -20,7 +20,7 @@ export type FolderHierarchy = {
     modTime: number;
     children: FolderHierarchy[];
 }
-export default function FolderHierarchyDialog({folderHierarchy , fileId} : {folderHierarchy : FolderHierarchy, fileId: string}) {
+export default function FileHierarchyDialog({folderHierarchy , fileId} : {folderHierarchy : FolderHierarchy, fileId: string}) {
 
     const router = useRouter();
 
@@ -59,9 +59,9 @@ export default function FolderHierarchyDialog({folderHierarchy , fileId} : {fold
     return (
         <DialogContent>
             <DialogHeader>
-                <DialogTitle>Move Files</DialogTitle>
+                <DialogTitle>Move File</DialogTitle>
                 <DialogDescription>
-                    Select a folder to move the files into. This action cannot be undone.
+                    Select a folder to move the file into. This action cannot be undone.
                 </DialogDescription>
             </DialogHeader>
 

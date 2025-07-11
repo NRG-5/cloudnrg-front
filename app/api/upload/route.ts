@@ -1,7 +1,12 @@
 import {NextResponse} from "next/server";
+import {cookies} from "next/headers";
 
 
 export async function POST(req : Request) {
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get('token')?.value;
+
     const incomingFormData = await req.formData();
 
 
@@ -31,11 +36,14 @@ export async function POST(req : Request) {
     // The third argument to append for a File object is the filename.
     gofileFormData.append('file', file, file.name);
 
-    const cloudnrgApiUrl = 'http://localhost:8090/api/v1/files/upload';
+    const cloudnrgApiUrl = `${process.env.BASE_URL}/files/upload`;
 
 
     const cloudnrgResponse = await fetch(cloudnrgApiUrl, {
         method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
         body: gofileFormData
     });
 

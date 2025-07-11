@@ -4,16 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import {Checkbox} from "@/components/ui/checkbox";
 import CreateFolderDialog from "@/app/dashboard/[folderId]/_components/_menubar/create-folder-dialog";
+import Cookies from "js-cookie";
+import {useRouter} from "next/navigation";
 
-const userId = "2c1405c6-43b0-4fb0-a23f-877427943382";
-const folderId = "65e00d9c-6230-4a32-ae8e-8c6ecd25842e";
 
-export default function FolderMenuBar() {
+
+export default function FolderMenuBar({ folderId}: { folderId: string}) {
     const [file, setFile] = useState<File>();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>();
+
+    const userId = Cookies.get("userId");
+
+    const router = useRouter();
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -21,6 +25,12 @@ export default function FolderMenuBar() {
 
         setLoading(true);
         setError(undefined);
+
+        if (!userId) {
+            setError("User ID is not available. Please log in.");
+            setLoading(false);
+            return;
+        }
 
         try {
             const formData = new FormData();
@@ -49,12 +59,17 @@ export default function FolderMenuBar() {
             const result = await res.json();
             console.log("Upload successful:", result);
             setFile(undefined);
+            setLoading(false);
+            router.refresh();
+
+
         } catch (e: any) {
             console.error("Upload error:", e);
             setError(e.message || "Failed to upload file");
-        } finally {
             setLoading(false);
         }
+
+
     };
 
     return (
@@ -92,10 +107,6 @@ export default function FolderMenuBar() {
                             : error}
                     </div>
                 )}
-
-                <Button variant={`secondary`} size={`sm`}>
-                    Refresh
-                </Button>
             </div>
         </div>
     );

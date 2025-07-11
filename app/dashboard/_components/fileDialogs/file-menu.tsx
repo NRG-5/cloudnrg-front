@@ -16,15 +16,15 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {EllipsisVerticalIcon} from "lucide-react";
-import FolderHierarchyDialog from "@/app/dashboard/_components/folder-hierarchy-dialog";
+import FileHierarchyDialog from "@/app/dashboard/_components/fileDialogs/file-hierarchy-dialog";
 import {Dialog, DialogTrigger} from "@/components/ui/dialog";
 import {useState} from "react";
-import FileInfoDialog from "@/app/dashboard/_components/file-info-dialog";
+import FileInfoDialog from "@/app/dashboard/_components/fileDialogs/file-info-dialog";
 import {useRouter} from "next/navigation";
 import {getFileAction} from "@/actions/file/get-file-action";
 import {toast} from "sonner";
-import FileDeleteDialog from "@/app/dashboard/_components/file-delete-dialog";
-import FileRenameDialog from "@/app/dashboard/_components/file-rename-dialog";
+import FileDeleteDialog from "@/app/dashboard/_components/fileDialogs/file-delete-dialog";
+import FileRenameDialog from "@/app/dashboard/_components/fileDialogs/file-rename-dialog";
 
 export type FolderHierarchy = {
     id: string;
@@ -166,7 +166,7 @@ export default function FileMenu(
             </DropdownMenu>
 
             {
-                dialog === Dialogs.move && <FolderHierarchyDialog folderHierarchy={folderHierarchy} fileId={fileId}/>
+                dialog === Dialogs.move && <FileHierarchyDialog folderHierarchy={folderHierarchy} fileId={fileId}/>
             }
             {
                 dialog === Dialogs.info && <FileInfoDialog
