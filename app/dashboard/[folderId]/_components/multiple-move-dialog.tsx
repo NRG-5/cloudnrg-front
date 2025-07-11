@@ -39,6 +39,11 @@ export default function MultipleMoveDialog({folderHierarchy, selectedFolderIds, 
 
     async function handleMultipleMove(folderId: string) {
 
+        if (selectedFolderIds.includes(folderId)) {
+            toast.error('Cannot move to the same folder');
+            return;
+        }
+
         const folderResponse = await updateFolderParentFolderAction(folderId,selectedFolderIds);
         const fileResponse = await updateFileParentFolderAction(folderId,selectedFileIds);
 
